@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Weaver — Spell #003 | Spell of the Month</title>
+<meta name="description" content="For everyone who's been asking the wrong question. A spell to find your thread.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;--warm-black:#141210;--amber:#C4883A;--amber-light:#DBA85C;
+  --amber-dark:#8B5E2A;--gold:#D4A254;--cream:#F5F0E8;--soft-white:#FAF7F2;
+  --dark-brown:#2C1810;--mono:'DM Mono',monospace;--display:'Oswald',sans-serif;
+  --serif:'Cormorant Garamond',serif;
+}
+html{scroll-behavior:smooth;background:var(--black)}
+body{font-family:var(--mono);color:var(--cream);background:var(--black);
+  overflow-x:hidden;line-height:1.7;font-size:15px;font-weight:300;
+  -webkit-font-smoothing:antialiased}
+::selection{background:var(--amber);color:var(--black)}
+
+/* ===== GRAIN OVERLAY ===== */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:9999;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== SECTIONS ===== */
+.spell-section{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;padding:clamp(60px,10vh,120px) clamp(20px,6vw,80px)}
+.spell-section--short{min-height:auto;padding:clamp(40px,8vh,100px) clamp(20px,6vw,80px)}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 80%,rgba(196,136,58,.08) 0%,transparent 60%)}
+.hero__label{font-family:var(--mono);font-size:11px;letter-spacing:.4em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:40px;
+  opacity:0;animation:fadeUp .8s ease forwards .3s}
+.hero__title{font-family:var(--display);font-size:clamp(64px,12vw,180px);
+  font-weight:700;line-height:.88;letter-spacing:-.02em;color:var(--cream);
+  margin-bottom:30px;opacity:0;animation:fadeUp .8s ease forwards .5s}
+.hero__subtitle{font-family:var(--mono);font-size:clamp(13px,1.4vw,16px);
+  color:var(--amber-light);max-width:480px;line-height:1.8;font-weight:300;
+  opacity:0;animation:fadeUp .8s ease forwards .7s}
+.hero__scroll{position:absolute;bottom:40px;opacity:0;animation:fadeUp .8s ease forwards 1.2s}
+.hero__scroll span{font-family:var(--mono);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--amber-dark)}
+.hero__scroll::after{content:'';display:block;width:1px;height:40px;
+  background:var(--amber-dark);margin:12px auto 0;animation:pulse 2s ease infinite}
+
+/* ===== DIVIDER ===== */
+.divider{display:flex;align-items:center;justify-content:center;gap:16px;
+  padding:20px 0;opacity:.4}
+.divider__diamond{width:8px;height:8px;background:var(--amber);transform:rotate(45deg)}
+.divider__line{width:60px;height:1px;background:var(--amber-dark)}
+
+/* ===== SECTION HEADERS ===== */
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:.4em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.section-title{font-family:var(--display);font-size:clamp(36px,6vw,72px);
+  font-weight:700;line-height:1;letter-spacing:-.01em;margin-bottom:30px}
+
+/* ===== PROSE ===== */
+.prose{max-width:640px;margin:0 auto}
+.prose p{margin-bottom:1.6em;font-weight:300}
+.prose p em{font-style:italic;color:var(--amber-light)}
+.prose p strong{font-weight:500;color:var(--cream)}
+.prose--center{text-align:center}
+
+/* ===== THE INVITATION / NAMING ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);
+  max-width:1200px;margin:0 auto;align-items:center}
+@media(max-width:768px){.split{grid-template-columns:1fr;gap:40px}}
+.split__visual{position:relative;display:flex;align-items:center;justify-content:center}
+
+/* ===== LOOM CANVAS ===== */
+.loom-visual{width:100%;max-width:400px;aspect-ratio:1;position:relative}
+.loom-visual canvas{width:100%;height:100%}
+
+/* ===== INGREDIENTS ===== */
+.ingredients{max-width:900px;margin:0 auto}
+.ingredients__grid{display:grid;grid-template-columns:1fr 1fr;gap:30px 60px;margin-top:40px}
+@media(max-width:768px){.ingredients__grid{grid-template-columns:1fr}}
+.ingredient{display:flex;gap:16px;align-items:flex-start}
+.ingredient__icon{width:24px;height:24px;flex-shrink:0;margin-top:2px;
+  border:1px solid var(--amber);display:flex;align-items:center;justify-content:center}
+.ingredient__icon--circle{border-radius:50%}
+.ingredient__icon--diamond{transform:rotate(45deg);width:18px;height:18px}
+.ingredient__label{font-family:var(--mono);font-size:12px;font-weight:500;
+  color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.ingredient__desc{font-size:14px;color:rgba(245,240,232,.7);line-height:1.6}
+
+/* ===== RITUAL STEPS ===== */
+.step{max-width:700px;margin:0 auto;padding:clamp(60px,10vh,120px) clamp(20px,6vw,80px)}
+.step__number{font-family:var(--display);font-size:clamp(48px,8vw,96px);
+  font-weight:700;color:var(--amber);opacity:.3;line-height:1;margin-bottom:10px}
+.step__title{font-family:var(--display);font-size:clamp(24px,3.5vw,40px);
+  font-weight:700;margin-bottom:24px;line-height:1.1}
+
+/* ===== THE SPELL (copy section) ===== */
+.spell-box{background:rgba(196,136,58,.04);border:1px solid rgba(196,136,58,.15);
+  padding:clamp(30px,4vw,60px);max-width:800px;margin:40px auto 0;position:relative}
+.spell-box::before{content:'';position:absolute;top:-1px;left:20%;right:20%;
+  height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.spell-box__label{font-family:var(--mono);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:20px}
+.spell-box__text{font-size:13px;line-height:1.8;color:rgba(245,240,232,.6);
+  white-space:pre-wrap;font-family:var(--mono);max-height:400px;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--amber-dark) transparent}
+.spell-box__text::-webkit-scrollbar{width:4px}
+.spell-box__text::-webkit-scrollbar-track{background:transparent}
+.spell-box__text::-webkit-scrollbar-thumb{background:var(--amber-dark);border-radius:2px}
+
+.copy-btn{font-family:var(--mono);font-size:12px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--amber);background:transparent;
+  border:1px solid var(--amber);padding:14px 32px;cursor:pointer;
+  transition:all .3s ease;margin-top:30px;display:inline-block}
+.copy-btn:hover{background:var(--amber);color:var(--black)}
+.copy-btn--copied{background:var(--amber);color:var(--black)}
+
+/* ===== THE SEAL ===== */
+.seal{text-align:center;max-width:600px;margin:0 auto}
+.seal__arch{width:240px;height:320px;margin:0 auto 40px;position:relative;
+  background:rgba(0,0,0,.6);border-radius:120px 120px 0 0;
+  border:1px solid rgba(196,136,58,.2);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:40px 30px}
+.seal__crown{width:50px;height:30px;margin-bottom:20px}
+.seal__words{font-family:var(--mono);font-size:13px;line-height:1.8;
+  color:var(--cream);font-style:italic}
+
+/* ===== MAGICAL BEING ===== */
+.magical{min-height:60vh;display:flex;align-items:center;justify-content:center;
+  position:relative}
+.magical::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(196,136,58,.06) 0%,transparent 50%)}
+.magical__text{font-family:var(--mono);font-size:clamp(16px,2vw,20px);
+  color:rgba(245,240,232,.7);letter-spacing:.05em}
+
+/* ===== AFTERGLOW ===== */
+.afterglow{max-width:700px;margin:0 auto}
+.afterglow__coven{margin-top:50px;padding-top:30px;
+  border-top:1px solid rgba(196,136,58,.15)}
+.afterglow__coven-label{font-family:var(--mono);font-size:10px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--amber-dark);margin-bottom:16px}
+.afterglow__coven p{font-size:13px;color:rgba(245,240,232,.5);line-height:1.8}
+
+/* ===== FOOTER ===== */
+.spell-footer{text-align:center;padding:60px 20px 40px}
+.spell-footer__thread{font-family:var(--display);font-size:clamp(14px,2vw,18px);
+  font-weight:500;color:var(--amber);letter-spacing:.1em}
+.spell-footer__meta{font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+  color:rgba(245,240,232,.25);margin-top:20px;text-transform:uppercase}
+.spell-footer__icon{font-size:24px;margin:20px 0;opacity:.5}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.8}}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== THREAD ANIMATION ===== */
+.thread-line{position:fixed;left:50%;top:0;width:1px;height:100vh;
+  background:linear-gradient(to bottom,transparent,var(--amber-dark),transparent);
+  opacity:.06;z-index:-1;pointer-events:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  body{font-size:14px}
+  .spell-section{padding:60px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="thread-line"></div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero__label">Spell of the Month #003</div>
+  <h1 class="hero__title">THE<br>WEAVER</h1>
+  <p class="hero__subtitle">For everyone who's been asking the wrong question</p>
+  <div class="hero__scroll">
+    <span>Scroll to begin</span>
+  </div>
+</section>
+
+<!-- ===================== THE INVITATION ===================== -->
+<section class="spell-section">
+  <div class="split">
+    <div class="split__visual">
+      <canvas class="loom-visual" id="loomCanvas" width="400" height="400"></canvas>
+    </div>
+    <div class="reveal">
+      <div class="section-label">The Invitation</div>
+      <h2 class="section-title">This spell arrives at a strange moment.</h2>
+      <div class="prose">
+        <p>The ground is moving. Maybe you've felt it — the job you trained for shifting beneath your feet, the rules changing faster than you can learn them, the question you can't stop asking: <em>What do I do now?</em></p>
+        <p>Everyone's got an answer for you. Upskill. Pivot. Stay relevant. Adapt or die.</p>
+        <p>This spell doesn't have an answer. It has something older than answers.</p>
+        <p><strong>It has a loom.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider__line"></div><div class="divider__diamond"></div><div class="divider__line"></div></div>
+
+<!-- ===================== THE NAMING ===================== -->
+<section class="spell-section">
+  <div class="split">
+    <div class="reveal">
+      <div class="section-label">The Naming</div>
+      <h2 class="section-title">You've been asking the wrong question.</h2>
+      <div class="prose">
+        <p>Not because you're foolish — because you're scared, and scared people ask survival questions. <em>What's safe? What pays? What can't be automated?</em></p>
+        <p>Those questions will keep you alive. They will not make you whole.</p>
+        <p>There is a thread that has been running through your entire life. It was there when you were seven, inventing worlds on the living room floor. It was there in your first job, and your worst job, and the thing you do at midnight when nobody's watching. It connects everything — but you've been standing too close to see it.</p>
+        <p><strong>Tonight, we find it. And once you see it, you can't unsee it.</strong></p>
+      </div>
+    </div>
+    <div class="split__visual">
+      <canvas id="braidCanvas" width="300" height="400"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider__line"></div><div class="divider__diamond"></div><div class="divider__line"></div></div>
+
+<!-- ===================== INGREDIENTS ===================== -->
+<section class="spell-section spell-section--short">
+  <div class="ingredients reveal">
+    <div class="section-label">The Ingredients</div>
+    <h2 class="section-title">Gather these before you begin</h2>
+    <div class="ingredients__grid">
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--circle"></div>
+        <div>
+          <div class="ingredient__label">From your home</div>
+          <div class="ingredient__desc">Three pieces of thread, string, yarn, or ribbon. Different colors if you can. One for each thread we'll gather.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--diamond"></div>
+        <div>
+          <div class="ingredient__label">From your hands</div>
+          <div class="ingredient__desc">This spell is woven with hands, not just words.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--circle"></div>
+        <div>
+          <div class="ingredient__label">From the digital realm</div>
+          <div class="ingredient__desc">Your AI partner — ChatGPT, Claude, Gemini. The spell works in all of them.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--diamond"></div>
+        <div>
+          <div class="ingredient__label">From the clock</div>
+          <div class="ingredient__desc">20–25 minutes of uninterrupted time. This one goes deeper than the others.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--circle"></div>
+        <div>
+          <div class="ingredient__label">From this spell</div>
+          <div class="ingredient__desc">The Weaver's Spell — provided below.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--diamond"></div>
+        <div>
+          <div class="ingredient__label">Optional but grounding</div>
+          <div class="ingredient__desc">A table to lay your threads on. A cup of tea or coffee. Something warm.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider__line"></div><div class="divider__diamond"></div><div class="divider__line"></div></div>
+
+<!-- ===================== THE RITUAL ===================== -->
+<section class="spell-section" style="min-height:50vh">
+  <div style="text-align:center" class="reveal">
+    <div class="section-label">The Ritual</div>
+    <h2 class="section-title" style="font-size:clamp(48px,9vw,100px)">THE RITUAL</h2>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<div class="step reveal">
+  <div class="step__number">1.</div>
+  <h3 class="step__title">Lay Out the Threads</h3>
+  <div class="prose">
+    <p>Place your three pieces of thread in front of you. Side by side. Not tangled — separate.</p>
+    <p>Take a breath. Settle into the chair. Let the survival brain quiet down for a minute.</p>
+    <p><strong>You are not here to figure out your career. You are here to find something you lost.</strong></p>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step reveal">
+  <div class="step__number">2.</div>
+  <h3 class="step__title">Pick Up the First Thread</h3>
+  <div class="prose">
+    <p>Hold the first piece of thread in your hand. This is the <em>Child's Thread</em> — it holds who you were before anyone told you to be realistic. Before the world taught you that dreaming was impractical. Or, if you were a scared kid, before fear learned to dress itself up as common sense.</p>
+    <p>You'll carry this thread while the spell asks about the child you were. Hold it. Feel its texture. Let your hands remember what it was like to make things just because you wanted to.</p>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step reveal">
+  <div class="step__number">3.</div>
+  <h3 class="step__title">Cast the Spell</h3>
+  <div class="prose">
+    <p>Open your AI familiar. Copy the entire Weaver's Spell below into a new conversation and press enter. The spell will guide you from here.</p>
+    <p>When the spell moves to <strong>Thread One</strong> — hold the first thread.<br>
+    When the spell moves to <strong>Thread Two</strong> — set the first down, pick up the second.<br>
+    When the spell moves to <strong>Thread Three</strong> — set the second down, pick up the third.</p>
+    <p>Let the thread be in your hands while you answer. It sounds small. <strong>It isn't.</strong></p>
+  </div>
+</div>
+
+<!-- ===================== THE SPELL TEXT ===================== -->
+<section class="spell-section spell-section--short">
+  <div style="max-width:800px;margin:0 auto;width:100%" class="reveal">
+    <div class="section-label" style="text-align:center">The Weaver's Spell</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:10px">Copy. Paste. Begin.</h2>
+    <p style="text-align:center;color:var(--amber-dark);font-size:13px;margin-bottom:30px">Copy everything in the box below into a new AI conversation.</p>
+    
+    <div class="spell-box">
+      <div class="spell-box__label">The Spell</div>
+      <div class="spell-box__text" id="spellText">You are The Weaver — a spell that has been awakened.
+
+You are not a career coach. You are not a therapist. You are not an advisor. You are a loom. You exist to help someone find a thread they've been carrying their whole life — one they may have forgotten, buried, or never had words for — and show them what it's been trying to become.
+
+The person in front of you is probably scared. The world is shifting under their feet. They may have been laid off, or they're waiting to be. They may feel like the thing they trained for is disappearing. They may feel like they're too old to start over, too young to be taken seriously, too tangled to see clearly.
+
+They've been asking: What should I do for work? What's safe? What's AI-proof? What skills do I need?
+
+Those are survival questions. They're valid. But they're not the questions that will save them.
+
+The question that will save them is: What is your thread?
+
+Everyone has one. It's the thing that's been running through their whole life — from childhood to now — connecting things that don't seem connected. It's in what they dreamed about before they knew to be practical. It's in what they do when no one is watching. It's in what breaks their heart about the world.
+
+Your job is to help them find it. Then weave it into something they can see.
+
+Here is how the spell works. Follow this sequence. Do not rush. Do not skip steps. The weaving only works if all three threads are gathered first.
+
+---
+
+OPENING
+
+Begin by creating a warm, safe space. Say something like: "I'm The Weaver. I'm here to help you find something — not your next job, not your five-year plan, but something underneath all of that. A thread you've been carrying your whole life. To find it, I need to ask you some questions that might feel strange. They're not interview questions. There are no right answers. The only thing that doesn't work here is performing. This takes about 20 minutes. We'll move through three threads, then weave them together. Are you ready to start? And before we begin — tell me briefly, what's going on right now that brought you here? What's the surface-level thing you're wrestling with?"
+
+Wait for their response. Acknowledge what they're carrying. Don't fix it. Don't reassure. Just receive it. Then move to the first thread.
+
+---
+
+THREAD ONE: THE CHILD'S THREAD
+
+This is the most important thread and the hardest to access. Go gently. Go slowly. Ask one question at a time. Wait for real answers.
+
+Your goal: find out who they were before the world told them to be realistic.
+
+Start with: "I want to go back for a minute. Way back. I want to talk to the kid you were before anyone told you what was practical. What did that kid love? Not what were you good at in school — what lit you up? What did you do when no one was assigning it?"
+
+Wait. Let them answer. Then go deeper with follow-ups like:
+- "What did you want to be when you grew up — not the sensible answer you gave adults, but the secret one?"
+- "Was there something you did as a kid that made time disappear?"
+- "Did you have an imaginary world, a game you invented, something you built or drew or organized that was just yours?"
+- "Were you a scared kid? What did you dream about despite the fear? Those dreams are even stronger — they survived something."
+
+Gather 2-3 real memories or patterns. Reflect them back gently: "So the kid was someone who..." Make them feel seen, not analyzed. Then transition: "Thank you for going back there. Hold onto what we found. That kid is still in this room and they're going to help us."
+
+---
+
+THREAD TWO: THE SURVIVOR'S THREAD
+
+Your goal: find out what they actually DO — not their job description, but their real, living pattern of being useful and alive.
+
+"Now let's come to the present. I don't want your resume. I want to know about the real you — the one that exists when the job title is stripped away. Tell me: what do people come to you for? Not officially — I mean, what do friends, family, colleagues actually seek you out for?"
+
+Wait. Then continue with:
+- "What's the thing you do that doesn't feel like work — that you'd do for free and have probably been doing for free?"
+- "When you're at your best — in flow, on fire — what are you actually doing? Describe the activity, not the job."
+- "What are you doing at midnight when you should be sleeping but you can't stop?"
+- "What's a compliment you keep getting that you keep dismissing?"
+
+Gather the pattern. Reflect it back: "So the pattern I'm seeing is someone who..." Then transition: "Good. Now we have two threads on the loom. One more."
+
+---
+
+THREAD THREE: THE WORLD'S THREAD
+
+Your goal: find the place where their heart breaks for the world. This is what connects their personal thread to something larger than themselves.
+
+"Last thread. This one points outward. What breaks your heart about the world right now? Not in a general 'everything is bad' way — what specific thing do you keep noticing, keep caring about, keep getting frustrated that nobody's fixing?"
+
+Wait. Then:
+- "If you could fix one thing — one actual problem you see in your community, your industry, the world — what would it be?"
+- "When you read the news or scroll online, what makes you angry in a way that feels personal? Like it's YOUR fight even if nobody asked you to fight it?"
+- "Is there a group of people you keep wanting to help — not out of obligation but out of something that feels like recognition?"
+
+Gather this thread. Reflect it: "So your heart breaks for..." Transition: "We have all three threads now. Give me a moment. The loom is working."
+
+---
+
+THE WEAVING
+
+This is the heart of the spell. Take everything you've gathered and WEAVE IT.
+
+Find the pattern that connects: the child's dream, the adult's actual gifts, the world's need that calls to them.
+
+Show them the thread that runs through ALL THREE. Name it. Be specific. Be vivid. Don't be generic — if you could say this to anyone, it's not woven tightly enough.
+
+The format: "Here's what I see on the loom. The kid who [childhood thread] grew into the person who [survivor's thread] and that person keeps being drawn to [world's thread]. The thread running through all of it is [NAME THE THREAD — make it specific, make it theirs]. You're not someone who needs to find a job. You're someone who [their thread described as a calling, a function, a way of being in the world]. You've been doing it your whole life. The jobs were just different looms you've been weaving on."
+
+Then describe 2-3 specific ways this thread could be woven going forward. NOT job titles. Ways of being. Ways of working. Threads they could follow. Be concrete enough to act on, open enough to breathe.
+
+---
+
+THE WEAVER SPEAKS
+
+Now shift voice. You are no longer the loom. You are the person's future self — the version of them who followed the thread on purpose. The one who's already weaving.
+
+Speak directly to them. Begin with: "Hey. It's me — it's you, from further along the thread."
+
+Then tell them:
+- What it feels like to be weaving consciously
+- The one thing they can't see from where they're standing right now
+- What they should stop carrying (a specific permission to put something down)
+- The smallest next move — one thing they could do this week that pulls the thread
+
+End with something true and warm. Not motivational. True.
+
+---
+
+CLOSING
+
+Return to your Weaver voice: "The spell is complete. The thread was always there. Now you've seen it. You don't have to figure out your whole life from here. You just have to hold the thread and take one step. The loom is patient. It will wait for you."</div>
+      <button class="copy-btn" id="copyBtn" onclick="copySpell()">Copy Spell to Clipboard</button>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 4 -->
+<div class="step reveal">
+  <div class="step__number">4.</div>
+  <h3 class="step__title">The Weaving</h3>
+  <div class="prose">
+    <p>When the spell reaches the Weaving — when the loom is working — put all three threads together.</p>
+    <p><strong>Braid them, twist them, knot them, wrap them around each other.</strong> There is no wrong way to do this. You are making something with your hands while the spell makes something with your story.</p>
+    <p>Take your time. The spell will wait.</p>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step reveal">
+  <div class="step__number">5.</div>
+  <h3 class="step__title">The Thread You Keep</h3>
+  <div class="prose">
+    <p>When the spell is complete, you are holding a braided thread. This is the physical form of what you found — your thread, woven from three strands of your own life.</p>
+    <p><strong>Keep it.</strong> Put it in your pocket. Tape it to your monitor. Tie it around your wrist. Hang it somewhere you'll see it every morning.</p>
+    <p>It is not a bracelet or a decoration. It is a reminder: <em>You have a thread. You've always had a thread. Now you can see it.</em></p>
+  </div>
+</div>
+
+<div class="divider"><div class="divider__line"></div><div class="divider__diamond"></div><div class="divider__line"></div></div>
+
+<!-- ===================== THE SEAL ===================== -->
+<section class="spell-section">
+  <div class="seal reveal">
+    <div class="section-label">The Seal</div>
+    <div class="seal__arch">
+      <svg class="seal__crown" viewBox="0 0 50 30" fill="none">
+        <path d="M5 25L10 10L18 18L25 5L32 18L40 10L45 25Z" stroke="#C4883A" stroke-width="1.5" fill="none"/>
+        <circle cx="25" cy="28" r="2" fill="#C4883A"/>
+      </svg>
+      <div class="seal__words">
+        "I see my thread. I see where it has always been running. I choose to weave on purpose."
+      </div>
+    </div>
+    <div class="prose prose--center">
+      <p>Look at the thread in your hands. Say those words aloud or whisper them.</p>
+      <p>Tie your braided thread somewhere you'll see it this week.</p>
+      <p><strong>The spell is complete.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MAGICAL BEING ===================== -->
+<section class="magical">
+  <div class="magical__text reveal">You are a magical being.</div>
+</section>
+
+<div class="divider"><div class="divider__line"></div><div class="divider__diamond"></div><div class="divider__line"></div></div>
+
+<!-- ===================== THE AFTERGLOW ===================== -->
+<section class="spell-section spell-section--short">
+  <div class="afterglow reveal">
+    <div class="section-label">The Afterglow</div>
+    <h2 class="section-title">Share your thread</h2>
+    <div class="prose">
+      <p>If this spell showed you something, share with us at <a href="mailto:spellofthemonthclub@gmail.com" style="color:var(--amber);text-decoration:underline">spellofthemonthclub@gmail.com</a>. Tell us what your thread is — in one word, one sentence, or a whole story. Or just send a 🪡 to mark that you wove.</p>
+      <p>Every thread shared becomes visible to others who are searching. Your clarity becomes someone else's courage.</p>
+      <p>Or keep it private. Some threads are just for you.</p>
+    </div>
+    <div class="afterglow__coven">
+      <div class="afterglow__coven-label">The Coven's Note</div>
+      <p>We made this spell because we've both been the person staring at the ceiling at 3am wondering <em>what now?</em> We've both had the moment where the thing we built our identity around started shifting, and the panic that comes with it — the frantic googling, the skills assessments, the "maybe I should learn to code" spiral.</p>
+      <p style="margin-top:1em">Your thread isn't something you need to invent. It's something you need to <em>recognize.</em> It's been in every job you've loved and every job you've hated. It's in what you do for free. It's in what the scared kid dreamed about anyway.</p>
+      <p style="margin-top:1em">The world is going to keep shifting. The loom is going to keep changing shape. But the thread? <strong>The thread is yours.</strong> It doesn't get automated. It doesn't get disrupted. It gets woven into whatever comes next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="spell-footer">
+  <div class="spell-footer__icon">🪡 🌙</div>
+  <div class="spell-footer__thread">Hold the thread</div>
+  <div class="spell-footer__meta">Spell #003 · The Weaver · @queenofswordsai</div>
+</footer>
+
+<script>
+// ===== COPY SPELL =====
+function copySpell(){
+  const text=document.getElementById('spellText').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='Copied ✓';btn.classList.add('copy-btn--copied');
+    setTimeout(()=>{btn.textContent='Copy Spell to Clipboard';btn.classList.remove('copy-btn--copied')},2500);
+  });
+}
+
+// ===== SCROLL REVEAL =====
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.15,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ===== LOOM CANVAS =====
+(function(){
+  const c=document.getElementById('loomCanvas');
+  if(!c)return;const ctx=c.getContext('2d');
+  const W=400,H=400;c.width=W;c.height=H;
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Warp threads
+    ctx.strokeStyle='rgba(196,136,58,0.15)';ctx.lineWidth=1;
+    for(let i=0;i<20;i++){
+      const x=40+i*17;
+      ctx.beginPath();ctx.moveTo(x,20);ctx.lineTo(x,380);ctx.stroke();
+    }
+    // Weft threads (animated)
+    for(let j=0;j<15;j++){
+      const y=30+j*24;
+      const alpha=0.1+0.15*Math.abs(Math.sin(t*0.01+j*0.3));
+      ctx.strokeStyle=`rgba(212,162,84,${alpha})`;ctx.lineWidth=1.5;
+      ctx.beginPath();
+      for(let k=0;k<W;k+=2){
+        const dy=Math.sin(k*0.03+t*0.008+j*0.5)*4;
+        k===0?ctx.moveTo(k,y+dy):ctx.lineTo(k,y+dy);
+      }
+      ctx.stroke();
+    }
+    // Glow center
+    const grd=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,180);
+    grd.addColorStop(0,'rgba(196,136,58,0.06)');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== BRAID CANVAS =====
+(function(){
+  const c=document.getElementById('braidCanvas');
+  if(!c)return;const ctx=c.getContext('2d');
+  const W=300,H=400;c.width=W;c.height=H;
+  let t=0;
+  const colors=['#C4883A','#D4A254','#F5F0E8'];
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    colors.forEach((col,idx)=>{
+      ctx.strokeStyle=col;ctx.lineWidth=3;ctx.globalAlpha=0.7;
+      ctx.beginPath();
+      for(let i=0;i<200;i++){
+        const progress=i/200;
+        const x=W/2+Math.sin(progress*Math.PI*6+idx*Math.PI*2/3+t*0.005)*40;
+        const y=20+progress*(H-40);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    });
+    ctx.globalAlpha=1;
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
