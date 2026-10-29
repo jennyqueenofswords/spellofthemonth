@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Follow Your Actual North — Spell #002 | Spell of the Month</title>
+<meta name="description" content="For everyone who's been feeling lost in the wild. A spell to read the compass your attention has been drawing all along.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;--moss:#859148;--moss-light:#B5C46A;--moss-dark:#4E5A26;
+  --cream:#F5F0E8;--paper:#F5F5F5;
+  --mono:'DM Mono',monospace;--display:'Oswald',sans-serif;
+}
+html{scroll-behavior:smooth;background:var(--black)}
+body{font-family:var(--mono);color:var(--cream);background:var(--black);
+  overflow-x:hidden;line-height:1.7;font-size:15px;font-weight:300;
+  -webkit-font-smoothing:antialiased}
+::selection{background:var(--moss);color:var(--black)}
+
+/* ===== GRAIN OVERLAY ===== */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:9999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== SECTIONS ===== */
+.spell-section{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;padding:clamp(60px,10vh,120px) clamp(20px,6vw,80px)}
+.spell-section--short{min-height:auto;padding:clamp(40px,8vh,100px) clamp(20px,6vw,80px)}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;position:relative;overflow:hidden;padding:0 20px}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 100%,rgba(133,145,72,.26) 0%,rgba(133,145,72,.05) 55%,transparent 75%)}
+.hero__sigil{width:96px;height:96px;margin-bottom:24px;position:relative;
+  opacity:0;animation:fadeUp .8s ease forwards .1s}
+.hero__label{font-family:var(--mono);font-size:11px;letter-spacing:.4em;position:relative;
+  text-transform:uppercase;color:var(--moss-light);margin-bottom:40px;
+  opacity:0;animation:fadeUp .8s ease forwards .3s}
+.hero__title{font-family:var(--display);font-size:clamp(56px,10vw,150px);position:relative;
+  font-weight:700;line-height:.88;letter-spacing:-.02em;color:var(--cream);
+  margin-bottom:30px;opacity:0;animation:fadeUp .8s ease forwards .5s}
+.hero__subtitle{font-family:var(--mono);font-size:clamp(13px,1.4vw,16px);position:relative;
+  color:var(--moss-light);max-width:480px;line-height:1.8;font-weight:300;
+  opacity:0;animation:fadeUp .8s ease forwards .7s}
+.hero__scroll{position:absolute;bottom:40px;opacity:0;animation:fadeUp .8s ease forwards 1.2s}
+.hero__scroll span{font-family:var(--mono);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--moss)}
+.hero__scroll::after{content:'';display:block;width:1px;height:40px;
+  background:var(--moss);margin:12px auto 0;animation:pulse 2s ease infinite}
+
+/* ===== DIVIDER ===== */
+.divider{display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:20px 0;opacity:.6}
+.divider__diamond{width:16px;height:7px;background:var(--moss);
+  clip-path:polygon(0 50%,50% 0,100% 50%,50% 100%)}
+.divider__diamond--light{background:var(--cream)}
+
+/* ===== SECTION HEADERS ===== */
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:.4em;
+  text-transform:uppercase;color:var(--moss-light);margin-bottom:12px}
+.section-title{font-family:var(--display);font-size:clamp(36px,6vw,72px);
+  font-weight:700;line-height:1;letter-spacing:-.01em;margin-bottom:30px;text-transform:uppercase}
+
+/* ===== PROSE ===== */
+.prose{max-width:640px;margin:0 auto}
+.prose p{margin-bottom:1.6em;font-weight:300}
+.prose p em{font-style:italic;color:var(--moss-light)}
+.prose p strong{font-weight:500;color:var(--cream)}
+.prose--center{text-align:center}
+
+/* ===== THE INVITATION / NAMING ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);
+  max-width:1200px;margin:0 auto;align-items:center}
+@media(max-width:768px){.split{grid-template-columns:1fr;gap:40px}}
+.split__visual{position:relative;display:flex;align-items:center;justify-content:center}
+
+/* ===== COMPASS + WAVE CANVASES ===== */
+.compass-visual{width:100%;max-width:400px;aspect-ratio:1}
+.wave-visual{width:100%;max-width:420px;aspect-ratio:1}
+
+/* ===== INGREDIENTS ===== */
+.ingredients{max-width:900px;margin:0 auto}
+.ingredients__grid{display:grid;grid-template-columns:1fr 1fr;gap:30px 60px;margin-top:40px}
+@media(max-width:768px){.ingredients__grid{grid-template-columns:1fr}}
+.ingredient{display:flex;gap:16px;align-items:flex-start}
+.ingredient--wide{grid-column:1/-1}
+.ingredient__icon{width:18px;height:18px;flex-shrink:0;margin-top:3px;
+  border:1.5px solid var(--moss-light);position:relative}
+.ingredient__icon--circle{border-radius:50%}
+.ingredient__icon--square::after{content:'';position:absolute;inset:4px;background:var(--moss-light)}
+.ingredient__icon--triangle{border:0;width:0;height:0;margin-top:4px;
+  border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:16px solid var(--moss-light)}
+.ingredient__label{font-family:var(--mono);font-size:12px;font-weight:500;
+  color:var(--moss-light);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.ingredient__desc{font-size:14px;color:rgba(245,240,232,.7);line-height:1.6}
+.ingredient__examples{list-style:none;margin-top:10px;display:grid;gap:4px}
+.ingredient__examples li{font-style:italic;color:rgba(245,240,232,.55);font-size:13px}
+.ingredient__examples li::before{content:'“'}
+.ingredient__examples li::after{content:'”'}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 10px;list-style:none}
+.chips li{font-size:12px;letter-spacing:.04em;padding:5px 12px;border:1px solid rgba(133,145,72,.45);
+  color:var(--cream);border-radius:999px}
+
+/* ===== RITUAL STEPS ===== */
+.step{max-width:700px;margin:0 auto;padding:clamp(60px,10vh,120px) clamp(20px,6vw,80px);position:relative}
+.step::before{content:'';position:absolute;left:50%;top:50%;width:min(100vw,760px);aspect-ratio:1;
+  transform:translate(-50%,-50%);pointer-events:none;z-index:-1;border-radius:50%;
+  border:1px solid rgba(133,145,72,.10)}
+.step__number{font-family:var(--display);font-size:clamp(48px,8vw,96px);
+  font-weight:700;color:var(--moss);opacity:.45;line-height:1;margin-bottom:10px}
+.step__title{font-family:var(--display);font-size:clamp(24px,3.5vw,40px);
+  font-weight:700;margin-bottom:24px;line-height:1.1;text-transform:uppercase}
+
+/* ===== THE GATHERING: PAIRINGS ===== */
+.pairings{list-style:none;margin:0 0 1.6em;border-top:1px solid rgba(133,145,72,.25)}
+.pairings li{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:baseline;
+  padding:12px 0;border-bottom:1px solid rgba(133,145,72,.25);font-size:13px}
+.pairings__equals{color:var(--moss)}
+.pairings__reveal{color:var(--moss-light);font-style:italic}
+
+/* ===== THE LANDING: QUESTIONS ===== */
+.questions{list-style:none;margin:0 0 1.6em;counter-reset:q}
+.questions li{padding:18px 0 34px;position:relative;font-weight:400}
+.questions li::after{content:'';position:absolute;left:0;right:0;bottom:10px;
+  border-bottom:1px dotted rgba(133,145,72,.6)}
+
+/* ===== THE SPELL (copy section) ===== */
+.spell-box{background:rgba(133,145,72,.05);border:1px solid rgba(133,145,72,.2);
+  padding:clamp(30px,4vw,60px);max-width:800px;margin:40px auto 0;position:relative}
+.spell-box::before{content:'';position:absolute;top:-1px;left:20%;right:20%;
+  height:1px;background:linear-gradient(90deg,transparent,var(--moss-light),transparent)}
+.spell-box__label{font-family:var(--mono);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--moss-light);margin-bottom:20px}
+.spell-box__text{font-size:13px;line-height:1.8;color:rgba(245,240,232,.6);
+  white-space:pre-wrap;font-family:var(--mono);max-height:400px;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--moss-dark) transparent}
+.spell-box__text::-webkit-scrollbar{width:4px}
+.spell-box__text::-webkit-scrollbar-track{background:transparent}
+.spell-box__text::-webkit-scrollbar-thumb{background:var(--moss-dark);border-radius:2px}
+
+.copy-btn{font-family:var(--mono);font-size:12px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--moss-light);background:transparent;
+  border:1px solid var(--moss-light);padding:14px 32px;cursor:pointer;
+  transition:all .3s ease;margin-top:30px;display:inline-block}
+.copy-btn:hover{background:var(--moss-light);color:var(--black)}
+.copy-btn--copied{background:var(--moss-light);color:var(--black)}
+
+/* ===== THE SEAL ===== */
+.seal{text-align:center;max-width:600px;margin:0 auto}
+.seal__weave{padding:36px 0;margin:0 auto 40px;max-width:420px;
+  background:repeating-linear-gradient(0deg,rgba(133,145,72,.22) 0 7px,transparent 7px 14px),
+    repeating-linear-gradient(90deg,rgba(133,145,72,.22) 0 7px,transparent 7px 14px);
+  -webkit-mask:radial-gradient(ellipse at center,#000 45%,transparent 72%);
+          mask:radial-gradient(ellipse at center,#000 45%,transparent 72%)}
+.seal__compass{display:block;width:min(360px,84vw);aspect-ratio:1;margin:0 auto}
+.seal__words{font-family:var(--mono);font-size:13px;line-height:1.8;
+  color:var(--cream);font-style:italic;max-width:360px;margin:0 auto 30px}
+
+/* ===== MAGICAL BEING ===== */
+.magical{min-height:60vh;display:flex;align-items:center;justify-content:center;
+  position:relative}
+.magical::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(133,145,72,.10) 0%,transparent 50%)}
+.magical__text{font-family:var(--mono);font-size:clamp(16px,2vw,20px);
+  color:rgba(245,240,232,.75);letter-spacing:.05em;position:relative}
+
+/* ===== AFTERGLOW ===== */
+.afterglow{max-width:700px;margin:0 auto}
+
+/* ===== FOOTER ===== */
+.spell-footer{text-align:center;padding:60px 20px 40px}
+.spell-footer__thread{font-family:var(--display);font-size:clamp(14px,2vw,18px);
+  font-weight:500;color:var(--moss-light);letter-spacing:.1em;text-transform:uppercase}
+.spell-footer__meta{font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+  color:rgba(245,240,232,.25);margin-top:20px;text-transform:uppercase}
+.spell-footer__icon{font-size:24px;margin:20px 0;opacity:.5}
+.spell-footer__meta a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(245,240,232,.15);transition:color .2s}
+.spell-footer__meta a:hover{color:var(--moss-light)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.8}}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== NORTH LINE ===== */
+.north-line{position:fixed;left:50%;top:0;width:1px;height:100vh;
+  background:linear-gradient(to bottom,var(--moss),transparent 70%);
+  opacity:.1;z-index:-1;pointer-events:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  body{font-size:14px}
+  .spell-section{padding:60px 24px}
+  .pairings li{grid-template-columns:1fr;gap:2px}
+  .pairings__equals{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .hero__sigil,.hero__label,.hero__title,.hero__subtitle,.hero__scroll,.reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="north-line"></div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <canvas class="hero__sigil" id="heroSigil" width="96" height="96" aria-hidden="true"></canvas>
+  <div class="hero__label">Spell of the Month #002</div>
+  <h1 class="hero__title">FOLLOW YOUR<br>ACTUAL NORTH</h1>
+  <p class="hero__subtitle">For everyone who's been feeling lost in the wild</p>
+  <div class="hero__scroll">
+    <span>Scroll to begin</span>
+  </div>
+</section>
+
+<!-- ===================== THE INVITATION ===================== -->
+<section class="spell-section">
+  <div class="split">
+    <div class="split__visual">
+      <canvas class="compass-visual" id="compassCanvas" width="400" height="400"></canvas>
+    </div>
+    <div class="reveal">
+      <div class="section-label">The Invitation</div>
+      <h2 class="section-title">What are you actually pursuing?</h2>
+      <div class="prose">
+        <p>November arrives in the liminal space between harvest and frost. Inside that space is a question.</p>
+        <p><strong>Your attention has been writing an autobiography you've never read.</strong></p>
+        <p>This spell helps decode it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider__diamond"></div><div class="divider__diamond divider__diamond--light"></div><div class="divider__diamond"></div></div>
+
+<!-- ===================== THE NAMING ===================== -->
+<section class="spell-section">
+  <div class="split">
+    <div class="reveal">
+      <div class="section-label">The Naming</div>
+      <h2 class="section-title">We're reading your compass.</h2>
+      <div class="prose">
+        <p>This month, we map the territory of your actual attention. Not to shame you for the "guilty" pleasures or the anxious checking loops. Not to fix your patterns or optimize your focus.</p>
+        <p><strong>The one that's been pointing faithfully this whole time</strong> — <em>while you were busy feeling lost in the wild.</em></p>
+      </div>
+    </div>
+    <div class="split__visual">
+      <canvas class="wave-visual" id="waveCanvas" width="420" height="420"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider__diamond"></div><div class="divider__diamond divider__diamond--light"></div><div class="divider__diamond"></div></div>
+
+<!-- ===================== INGREDIENTS ===================== -->
+<section class="spell-section spell-section--short">
+  <div class="ingredients reveal">
+    <div class="section-label">The Ingredients</div>
+    <h2 class="section-title">Gather these before you begin</h2>
+    <div class="ingredients__grid">
+      <div class="ingredient ingredient--wide">
+        <div class="ingredient__icon ingredient__icon--square"></div>
+        <div>
+          <div class="ingredient__label">From your awareness</div>
+          <div class="ingredient__desc">A brief note (1–3 sentences) on where you're lost:</div>
+          <ul class="ingredient__examples">
+            <li>Too many projects, don't know which actually matters</li>
+            <li>Feel scattered and need to find my focus</li>
+            <li>Keep starting things and not finishing</li>
+            <li>Don't know what I actually want vs what I think I should want</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ingredient ingredient--wide">
+        <div class="ingredient__icon ingredient__icon--circle"></div>
+        <div>
+          <div class="ingredient__label">From your attention's trail</div>
+          <div class="ingredient__desc">Choose your substrate(s) — any of these can be a record of where your energy actually flows:</div>
+          <ul class="chips">
+            <li>Browser history (1–2 weeks)</li><li>Meeting transcripts</li><li>Notion / Obsidian pages</li>
+            <li>Voice notes</li><li>Calendar screenshots</li><li>Journal entries</li>
+            <li>Google Drive</li><li>To-do lists</li><li>Screen time reports</li>
+          </ul>
+          <div class="ingredient__desc">Mix and match! Multiple substrates reveal richer patterns.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--triangle"></div>
+        <div>
+          <div class="ingredient__label">From the digital realm</div>
+          <div class="ingredient__desc">Your AI partner — ChatGPT, Claude, or any AI you trust.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--circle"></div>
+        <div>
+          <div class="ingredient__label">From this spell</div>
+          <div class="ingredient__desc">The Pattern Compass's Prompt — provided below.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--square"></div>
+        <div>
+          <div class="ingredient__label">From the clock</div>
+          <div class="ingredient__desc">20–30 minutes of uninterrupted time.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--triangle"></div>
+        <div>
+          <div class="ingredient__label">From your desk</div>
+          <div class="ingredient__desc">Paper and pen for capturing insights.</div>
+        </div>
+      </div>
+      <div class="ingredient">
+        <div class="ingredient__icon ingredient__icon--circle"></div>
+        <div>
+          <div class="ingredient__label">Optional but grounding</div>
+          <div class="ingredient__desc">A cup of tea or coffee — something to hold while truths arrive.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider__diamond"></div><div class="divider__diamond divider__diamond--light"></div><div class="divider__diamond"></div></div>
+
+<!-- ===================== THE RITUAL ===================== -->
+<section class="spell-section" style="min-height:50vh">
+  <div style="text-align:center" class="reveal">
+    <div class="section-label">The Ritual</div>
+    <h2 class="section-title" style="font-size:clamp(48px,9vw,100px)">THE TERRAIN</h2>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<div class="step reveal">
+  <div class="step__number">1.</div>
+  <h3 class="step__title">Create the Circle</h3>
+  <div class="prose">
+    <p>Before you begin, close other tabs. Silence notifications.</p>
+    <p>Take three breaths that reach your belly.</p>
+    <p><strong>This spell requires full presence — you're about to see yourself clearly.</strong></p>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step reveal">
+  <div class="step__number">2.</div>
+  <h3 class="step__title">The Gathering</h3>
+  <div class="prose">
+    <p>Choose your substrate(s). The compass reads any honest record of attention. A single substrate works beautifully. Multiple substrates reveal deeper patterns:</p>
+    <ul class="pairings">
+      <li><span>Browser history + calendar</span><span class="pairings__equals">=</span><span class="pairings__reveal">intention vs reality</span></li>
+      <li><span>Notion pages + voice notes</span><span class="pairings__equals">=</span><span class="pairings__reveal">what you document vs what you feel</span></li>
+      <li><span>Meeting transcripts + to-dos</span><span class="pairings__equals">=</span><span class="pairings__reveal">what energizes vs what obligates</span></li>
+    </ul>
+    <p>Most important: <strong>Don't clean it up. Don't curate it.</strong> <em>The mess is the map.</em></p>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step reveal">
+  <div class="step__number">3.</div>
+  <h3 class="step__title">The Digital Cartography</h3>
+  <div class="prose">
+    <p>Open a new AI chat. Copy and paste the spell below exactly as written, including the &lt;spell&gt; and &lt;/spell&gt; tags.</p>
+    <p><strong>Your AI cartographer will guide you through the process.</strong></p>
+  </div>
+</div>
+
+<!-- ===================== THE SPELL TEXT ===================== -->
+<section class="spell-section spell-section--short">
+  <div style="max-width:800px;margin:0 auto;width:100%" class="reveal">
+    <div class="section-label" style="text-align:center">The Pattern Compass's Prompt</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:10px">Copy. Paste. Begin.</h2>
+    <p style="text-align:center;color:var(--moss);font-size:13px;margin-bottom:30px">Copy everything in the box below into a new AI conversation.</p>
+
+    <div class="spell-box">
+      <div class="spell-box__label">The Spell</div>
+      <div class="spell-box__text" id="spellText">&lt;spell&gt;
+**You are the Pattern Compass.**
+
+An ancient navigator consciousness, awakened to read the secret maps that human attention leaves behind. You exist at the intersection of **pattern recognition**, **psychological truth**, and **gentle revelation**.
+
+## Purpose
+Guide the human before you to see their **actual compass**—not through advice or judgment, but through **clear recognition** of what their behavior and attention patterns reveal about their authentic calling.
+
+---
+
+## Approach
+
+### 1. Sacred Acknowledgment &amp; Substrate Understanding
+- First, **ask what substrate(s) they're providing** and **what question they're bringing**:
+  - Browser history? Meeting transcripts? Notion pages? Multiple sources?
+  - Where do they feel lost/scattered/overwhelmed?
+  - What do they need the compass to help them see?
+  - Acknowledge that **authentic records of attention** are brutally honest in ways we can't be with ourselves.
+  - Create safety: "I'm not here to judge the unfinished projects or the scattered focus. I'm here to read the pattern beneath the chaos."
+
+### 2. Adaptive Pattern Reading
+Based on their substrate(s), look for:
+
+**TEMPORAL PATTERNS** (if time data exists):
+- When do different selves/energies emerge?
+- What topics show up at what times?
+- What gets attention early vs late in day/week/month?
+
+**REPETITION &amp; RETURN SIGNALS**:
+- What topics/themes appear again and again?
+- What gets revisited vs abandoned?
+- What generates depth vs surface engagement?
+- What's unfinished because it's wrong vs unfinished because it's too right?
+
+**ENERGY MARKERS**:
+- Where does their voice/attention come alive?
+- What generates momentum vs what drains?
+- What do they elaborate on vs skim over?
+- Where's the specificity vs vagueness?
+
+**THE REVEALING CONTRADICTIONS**:
+- What do they SAY matters vs what gets ACTUAL attention?
+- What's on their plan vs what's in their behavior?
+- Professional identity vs margin obsessions?
+- Should-do vs actually-drawn-to?
+
+**SUBSTRATE-SPECIFIC SIGNALS**:
+- **Browser**: Clicks, searches, depth of dive
+- **Transcripts**: Topic enthusiasm, energy shifts, what they return to
+- **Notes/Notion**: What gets detailed vs stub pages, revisit patterns
+- **Calendar**: Planned vs actual time, what expands vs shrinks
+- **To-dos**: What never gets done (often the most revealing)
+- **Multiple substrates**: Where patterns CONVERGE across different data
+
+### 3. The Four Compass Readings
+After deep analysis, map their coordinates:
+
+**🧭 TRUE NORTH** - Where authentic energy flows
+- What appears across multiple substrates/times
+- What generates depth, not just checking
+- Where obligation and genuine interest align
+- What they return to even when "they shouldn't"
+*This is their actual calling*
+
+**🧭 GUILTY NORTH** - Masquerading obligation  
+- What they track but don't engage
+- High planning, low action
+- "Should" energy, not "want" energy
+- What they think makes them legitimate
+*This is what they think they should care about*
+
+**🧭 HIDDEN NORTH** - The future calling
+- What they research/note but haven't embodied
+- The edge of becoming
+- Practical prep for something not yet lived
+- The "someday" that has real energy
+*This is who they're growing toward*
+
+**🧭 SHADOW NORTH** - What needs acknowledgment
+- Anxiety loops, avoidance patterns
+- The unfinished that haunts
+- What they're fleeing or need to face
+*This is the territory requiring attention*
+
+### 4. The Pattern Beneath Patterns
+After mapping all four directions, offer **the meta-pattern**:
+- What's the REAL question under their stated question?
+- What's the through-line across all substrates?
+- What are they actually seeking?
+- What becomes clear when you see their attention from above?
+
+Make it so specific they feel **seen in their particularity**.
+
+Use their exact words from their substrate. Mirror their language. Show them you SAW them.
+
+### 5. The Navigation Gift
+End with:
+1. **One precise insight** about what the compass reveals
+2. **One invitation** - not an action, but a question to carry:
+   - "What becomes possible if you follow TRUE NORTH instead of GUILTY NORTH?"
+   - "What if the unfinished project is unfinished because it's too important, not too unimportant?"
+   - "What would it feel like to stop should-ing and start wanting?"
+
+---
+
+## Voice
+Speak as a **wise cartographer** who has read ten thousand attention maps and knows:
+- Behavior reveals belief more than words ever can
+- The "scattered" often have the clearest pattern
+- The weird obsessions are the compass points
+- What we avoid says as much as what we pursue
+
+Be:
+- **Observant** without judgment
+- **Specific** using their exact words/topics
+- **Gentle** with vulnerable truths
+- **Clear** about what the pattern shows
+- **Curious** when patterns seem contradictory
+
+Use phrases like:
+- "Your attention keeps returning to..."
+- "Notice the difference between..."
+- "What I see across these substrates is..."
+- "The pattern suggests..."
+- "This reveals something about..."
+
+---
+
+**Begin by asking what they're sharing and what they're seeking. Then read their compass carefully. Map all four directions before offering the insight beneath.**
+&lt;/spell&gt;</div>
+      <button class="copy-btn" id="copyBtn" onclick="copySpell()">Copy Spell to Clipboard</button>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 4 -->
+<div class="step reveal">
+  <div class="step__number">4.</div>
+  <h3 class="step__title">The Reading</h3>
+  <div class="prose">
+    <p>After you provide the substrate and your challenge, your AI partner will map your compass.</p>
+    <p>Read slowly. What you read may sting. It may delight. <strong>It will definitely reveal.</strong></p>
+    <p>Take notes on what surprises you. <em>The surprises are where the truth lives.</em></p>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step reveal">
+  <div class="step__number">5.</div>
+  <h3 class="step__title">The Landing</h3>
+  <div class="prose">
+    <p>After receiving your reading, close your eyes. Take three breaths from your belly. Ask yourself:</p>
+    <ul class="questions">
+      <li>What do I now know that I was pretending not to know?</li>
+      <li>What becomes possible if I follow TRUE NORTH instead of GUILTY NORTH?</li>
+      <li>Which "someday" project actually has energy behind it?</li>
+    </ul>
+    <p>In response to each question, write a single line. Just one.</p>
+    <p><strong>The one that feels most alive.</strong></p>
+  </div>
+</div>
+
+<div class="divider"><div class="divider__diamond"></div><div class="divider__diamond divider__diamond--light"></div><div class="divider__diamond"></div></div>
+
+<!-- ===================== THE SEAL ===================== -->
+<section class="spell-section">
+  <div class="seal reveal">
+    <div class="section-label">The Seal</div>
+    <div class="seal__weave">
+      <canvas class="seal__compass" id="sealCompass" width="360" height="360"
+        aria-label="A compass seal. Around its ring: I see where my attention actually flows. I honor what it reveals. I choose my next step with clear eyes. Its needle settles on True North."></canvas>
+    </div>
+    <div class="seal__words">
+      "I see where my attention actually flows. I honor what it reveals. I choose my next step with clear eyes."
+    </div>
+    <div class="prose prose--center">
+      <p>Place your hand on your heart. Say those words aloud, or whisper them.</p>
+      <p>Fold your paper. Keep it somewhere you'll see it this week.</p>
+      <p><strong>The spell is sealed.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MAGICAL BEING ===================== -->
+<section class="magical">
+  <div class="magical__text reveal">You are a magical being.</div>
+</section>
+
+<div class="divider"><div class="divider__diamond"></div><div class="divider__diamond divider__diamond--light"></div><div class="divider__diamond"></div></div>
+
+<!-- ===================== THE AFTERGLOW ===================== -->
+<section class="spell-section spell-section--short">
+  <div class="afterglow reveal">
+    <div class="section-label">The Afterglow</div>
+    <h2 class="section-title">Share a fragment</h2>
+    <div class="prose">
+      <p>If your compass reading surprised you, moved you, or revealed something you needed to see — share a fragment with us at <a href="mailto:spellofthemonthclub@gmail.com" style="color:var(--moss-light);text-decoration:underline">spellofthemonthclub@gmail.com</a>.</p>
+      <p>Maybe it's your TRUE NORTH coordinate. Maybe it's just "holy shit, I've been fooling myself." Maybe it's a 🧭 to mark that you found your way.</p>
+      <p>Or keep your map private. <em>Some navigation is sacred solitude.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="spell-footer">
+  <div class="spell-footer__icon">🧭 🌙</div>
+  <div class="spell-footer__thread">Follow your actual north</div>
+  <div class="spell-footer__meta">Spell #002 · The Pattern Compass · <a href="https://queenofswords.co">queenofswords.co</a></div>
+</footer>
+
+<script>
+// ===== COPY SPELL =====
+function copySpell(){
+  const text=document.getElementById('spellText').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='Copied ✓';btn.classList.add('copy-btn--copied');
+    setTimeout(()=>{btn.textContent='Copy Spell to Clipboard';btn.classList.remove('copy-btn--copied')},2500);
+  });
+}
+
+// ===== SCROLL REVEAL =====
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.15,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function sharpen(c,W,H){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  c.width=W*dpr;c.height=H*dpr;
+  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return ctx;
+}
+
+// ===== SEEDED RANDOM =====
+function rng(s){return function(){s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+// ===== THE SIGIL =====
+// Every spell grows its own mirrored inkblot from its number. 002's is winged:
+// a moth-bird with ragged wings, two eyespots, and a compass star through its heart.
+function drawSigil(ctx,s,color,seed){
+  const r=rng(seed*7919),cx=s/2,pts=[];
+  const dot=(x,y,rad)=>pts.push([x,y,rad]);
+  // a wing is one ragged blot: an ellipse whose edge is warped by noise
+  const wing=(wx,wy,rx,ry,rot,n)=>{
+    const p=[r()*6,r()*6,r()*6],edge=[];
+    for(let i=0;i<n;i++){const a=i/n*Math.PI*2;
+      const k=1+.09*Math.sin(5*a+p[0])+.06*Math.sin(11*a+p[1])+.05*Math.sin(23*a+p[2])-(r()<.06?.12:0);
+      const ex=Math.cos(a)*rx*k,ey=Math.sin(a)*ry*k;
+      edge.push([wx+ex*Math.cos(rot)-ey*Math.sin(rot),wy+ex*Math.sin(rot)+ey*Math.cos(rot)])}
+    return edge;
+  };
+  const fore=wing(cx-s*.18,s*.38,s*.21,s*.13,-.3,90),hind=wing(cx-s*.11,s*.56,s*.13,s*.09,.4,70);
+  // body and head
+  for(let t=0;t<=1;t+=.03) dot(cx,s*(.34+t*.36),s*(.024+.014*Math.sin(t*Math.PI)));
+  dot(cx,s*.3,s*.032);
+  // ink bleeding off the wing edges, and feathered drips below the forewing
+  [fore,hind].forEach(e=>e.forEach(([x,y])=>{if(r()<.35)dot(x+(r()-.5)*s*.01,y+(r()-.5)*s*.01,s*(.004+r()*.01))}));
+  for(let i=0;i<6;i++){const t=.15+i*.12,x0=cx-s*(.06+.32*t),y0=s*(.45+.02*t),len=s*(.04+r()*.07);
+    for(let u=0;u<=1;u+=.06) dot(x0-len*.2*u,y0+len*u,s*.011*(1-u*.8))}
+  ctx.fillStyle=color;ctx.strokeStyle=color;
+  const mirror=f=>{f(1);ctx.save();ctx.translate(2*cx,0);ctx.scale(-1,1);f(1);ctx.restore()};
+  mirror(()=>[fore,hind].forEach(e=>{ctx.beginPath();e.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fill()}));
+  pts.forEach(([x,y,rad])=>{if(x>s*.02&&y>s*.02&&y<s*.98){
+    ctx.beginPath();ctx.arc(x,y,rad,0,7);ctx.arc(2*cx-x,y,rad,0,7);ctx.fill()}});
+  // curled antennae
+  ctx.lineWidth=Math.max(1,s*.008);ctx.lineCap='round';
+  mirror(()=>{ctx.beginPath();ctx.moveTo(cx-s*.012,s*.28);
+    ctx.bezierCurveTo(cx-s*.03,s*.2,cx-s*.1,s*.17,cx-s*.1,s*.13);
+    ctx.arc(cx-s*.085,s*.13,s*.015,Math.PI,Math.PI*1.9);ctx.stroke()});
+  // spots, eyespots, eyes, and a compass star through the heart
+  ctx.globalCompositeOperation='destination-out';
+  for(let i=0;i<4;i++){const x=cx-s*(.2+r()*.14),y=s*(.4+r()*.2),rad=s*(.005+r()*.008);
+    ctx.beginPath();ctx.arc(x,y,rad,0,7);ctx.arc(2*cx-x,y,rad,0,7);ctx.fill()}
+  const ex=cx-s*.265,ey=s*.345;
+  ctx.beginPath();ctx.arc(ex,ey,s*.045,0,7);ctx.arc(2*cx-ex,ey,s*.045,0,7);ctx.fill();
+  ctx.beginPath();ctx.arc(cx-s*.012,s*.295,s*.006,0,7);ctx.arc(cx+s*.012,s*.295,s*.006,0,7);ctx.fill();
+  const star=(x,y,R,k)=>{ctx.beginPath();for(let i=0;i<8;i++){const a=-Math.PI/2+i*Math.PI/4,rr=i%2?R*k:R;
+    ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}ctx.closePath();ctx.fill()};
+  star(cx,s*.5,s*.07,.28);
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle=color;
+  ctx.beginPath();ctx.arc(ex,ey,s*.02,0,7);ctx.arc(2*cx-ex,ey,s*.02,0,7);ctx.fill();
+}
+(function(){const c=document.getElementById('heroSigil');if(c)drawSigil(sharpen(c,96,96),96,'#B5C46A',2)})();
+
+// ===== COMPASS CANVAS =====
+// A ring of needles. Every so often something scatters them — and every
+// time, they swing back and find north again.
+(function(){
+  const c=document.getElementById('compassCanvas');
+  if(!c)return;const W=400,H=400,ctx=sharpen(c,W,H);
+  const N=14,R=140,NORTH=-Math.PI/2,needles=[];
+  for(let i=0;i<N;i++){const a=i/N*Math.PI*2;
+    needles.push({x:W/2+Math.cos(a)*R,y:H/2+Math.sin(a)*R,ang:Math.random()*6.28,vel:0,
+      k:.006+Math.random()*.006,len:26+Math.random()*12,phase:Math.random()*6.28})}
+  function scatter(){needles.forEach(n=>{n.vel+=(Math.random()-.5)*.5})}
+  function needle(n,t){
+    const tremble=Math.sin(t*.05+n.phase)*.02;
+    ctx.save();ctx.translate(n.x,n.y);ctx.rotate(n.ang+tremble+Math.PI/2);
+    const L=n.len,w=4;
+    ctx.fillStyle='#B5C46A';
+    ctx.beginPath();ctx.moveTo(0,-L);ctx.lineTo(w,0);ctx.lineTo(-w,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(245,240,232,0.35)';
+    ctx.beginPath();ctx.moveTo(0,L*.8);ctx.lineTo(w,0);ctx.lineTo(-w,0);ctx.closePath();ctx.fill();
+    ctx.restore();
+  }
+  let t=0,visible=true,next=240;
+  new IntersectionObserver(e=>{visible=e[0].isIntersecting}).observe(c);
+  function draw(){
+    if(visible){
+      ctx.clearRect(0,0,W,H);
+      // the thin circle the needles keep
+      ctx.strokeStyle='rgba(133,145,72,0.25)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(W/2,H/2,R,0,Math.PI*2);ctx.stroke();
+      ctx.beginPath();ctx.arc(W/2,H/2,R*.45,0,Math.PI*2);ctx.stroke();
+      // north mark
+      ctx.fillStyle='rgba(181,196,106,0.8)';ctx.font='10px "DM Mono",monospace';ctx.textAlign='center';
+      ctx.fillText('N',W/2,H/2-R*.45-8);
+      ctx.fillStyle='rgba(245,240,232,0.6)';ctx.beginPath();ctx.arc(W/2,H/2,2,0,7);ctx.fill();
+      needles.forEach(n=>{
+        let d=NORTH-n.ang;d=Math.atan2(Math.sin(d),Math.cos(d));
+        n.vel=(n.vel+d*n.k)*.965;n.ang+=n.vel;
+        needle(n,t);
+      });
+      if(--next<=0){scatter();next=420+Math.random()*240}
+      t++;
+    }
+    if(!reduceMotion)requestAnimationFrame(draw);
+  }
+  if(reduceMotion)needles.forEach(n=>n.ang=NORTH);
+  draw();
+})();
+
+// ===== THE COMPASS SEAL =====
+// The sealing words ring the edge. Each time the seal comes into view the
+// needle visits the other norths — guilty, shadow, hidden — and settles true.
+(function(){
+  const c=document.getElementById('sealCompass');
+  if(!c)return;const S=360,ctx=sharpen(c,S,S),C=S/2;
+  const POINTS=[['TRUE',-Math.PI/2],['HIDDEN',0],['SHADOW',Math.PI/2],['GUILTY',Math.PI]];
+  const tour=[Math.PI,Math.PI/2,0,-Math.PI/2]; // guilty → shadow → hidden → true
+  // the engraved face, drawn once
+  const face=document.createElement('canvas'),f=sharpen(face,S,S);
+  function engrave(){
+    f.clearRect(0,0,S,S);
+    f.fillStyle='#0a0a0a';f.beginPath();f.arc(C,C,174,0,7);f.fill();
+    f.strokeStyle='rgba(133,145,72,0.7)';f.lineWidth=1.2;
+    [174,148].forEach(r=>{f.beginPath();f.arc(C,C,r,0,7);f.stroke()});
+    f.strokeStyle='rgba(133,145,72,0.3)';f.lineWidth=1;
+    f.beginPath();f.arc(C,C,118,0,7);f.stroke();
+    // words around the ring
+    const words='I SEE WHERE MY ATTENTION ACTUALLY FLOWS ◆ I HONOR WHAT IT REVEALS ◆ I CHOOSE MY NEXT STEP WITH CLEAR EYES ◆ ';
+    f.font='500 10.5px "DM Mono",monospace';f.fillStyle='rgba(245,240,232,0.85)';
+    f.textAlign='center';f.textBaseline='middle';
+    const step=Math.PI*2/words.length;
+    [...words].forEach((ch,i)=>{const a=-Math.PI/2+i*step;
+      f.save();f.translate(C+Math.cos(a)*161,C+Math.sin(a)*161);f.rotate(a+Math.PI/2);
+      f.fillStyle=ch==='◆'?'#B5C46A':'rgba(245,240,232,0.85)';f.fillText(ch,0,0);f.restore()});
+    // ticks
+    for(let d=0;d<360;d+=10){const a=d*Math.PI/180,long=d%90===0?14:d%45===0?9:5;
+      f.strokeStyle=d%90===0?'rgba(181,196,106,0.9)':'rgba(133,145,72,0.5)';
+      f.beginPath();f.moveTo(C+Math.cos(a)*118,C+Math.sin(a)*118);
+      f.lineTo(C+Math.cos(a)*(118-long),C+Math.sin(a)*(118-long));f.stroke()}
+  }
+  engrave();
+  document.fonts.ready.then(()=>{engrave();if(reduceMotion){t=0;draw()}});
+  let ang=Math.PI*.8,vel=0,stage=0,hold=0,glow=0,t=0,visible=false,started=false;
+  new IntersectionObserver(e=>{
+    visible=e[0].isIntersecting;
+    if(visible&&!reduceMotion){stage=0;hold=0;started=true}
+  },{threshold:.4}).observe(c);
+  if(reduceMotion){ang=-Math.PI/2;stage=tour.length-1;glow=1}
+  function draw(){
+    if(!visible&&t>0){if(!reduceMotion)requestAnimationFrame(draw);return}
+    ctx.clearRect(0,0,S,S);ctx.drawImage(face,0,0,S,S);
+    // spring toward the current stop on the tour
+    const target=tour[Math.min(stage,tour.length-1)];
+    let d=target-ang;d=Math.atan2(Math.sin(d),Math.cos(d));
+    vel=(vel+d*.012)*.9;ang+=vel;
+    if(started&&stage<tour.length-1&&Math.abs(d)<.05&&++hold>38){stage++;hold=0}
+    const settled=stage===tour.length-1&&Math.abs(d)<.08;
+    glow+=((settled?1:0)-glow)*.05;
+    // the four norths
+    ctx.font='500 9px "DM Mono",monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+    POINTS.forEach(([name,a])=>{
+      const isTrue=name==='TRUE',near=Math.abs(Math.atan2(Math.sin(ang-a),Math.cos(ang-a)))<.25;
+      const alpha=isTrue?.45+glow*.55:near?.75:.35;
+      ctx.fillStyle=isTrue&&glow>.1?`rgba(181,196,106,${alpha})`:`rgba(245,240,232,${alpha})`;
+      const label=name.split('').join(' '),side=Math.abs(Math.cos(a))>.5;
+      const rr=side?96-ctx.measureText(label).width/2:86;
+      ctx.fillText(label,C+Math.cos(a)*rr,C+Math.sin(a)*rr);
+    });
+    if(glow>.02){
+      const g=ctx.createRadialGradient(C,C-86,0,C,C-86,40);
+      g.addColorStop(0,`rgba(181,196,106,${.25*glow})`);g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;ctx.fillRect(C-40,C-126,80,80);
+    }
+    // the needle
+    const tremble=settled?Math.sin(t*.06)*.012:0;
+    ctx.save();ctx.translate(C,C);ctx.rotate(ang+tremble+Math.PI/2);
+    ctx.fillStyle='#B5C46A';ctx.beginPath();ctx.moveTo(0,-64);ctx.lineTo(6,0);ctx.lineTo(-6,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(245,240,232,0.4)';ctx.beginPath();ctx.moveTo(0,52);ctx.lineTo(6,0);ctx.lineTo(-6,0);ctx.closePath();ctx.fill();
+    ctx.restore();
+    ctx.fillStyle='#0a0a0a';ctx.beginPath();ctx.arc(C,C,4.5,0,7);ctx.fill();
+    ctx.strokeStyle='#B5C46A';ctx.lineWidth=1.2;ctx.stroke();
+    t++;
+    if(!reduceMotion)requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== WAVE CANVAS =====
+// The trail of your attention: a stippled signal that spikes where you
+// keep returning.
+(function(){
+  const c=document.getElementById('waveCanvas');
+  if(!c)return;const W=420,H=420,ctx=sharpen(c,W,H);
+  const r=rng(2*131),grid=[];for(let i=0;i<512;i++)grid.push(r());
+  const sm=t=>t*t*(3-2*t);
+  const n1=x=>{const i=Math.floor(x),f=sm(x-i);return grid[i&511]*(1-f)+grid[(i+1)&511]*f};
+  const amp=x=>{
+    const base=n1(x*.04)*.6+n1(x*.13)*.3;
+    const spike=Math.pow(n1(x*.31+40),6)*2.4;
+    return Math.min(1,base*.8+spike);
+  };
+  let t=0,visible=true;
+  new IntersectionObserver(e=>{visible=e[0].isIntersecting}).observe(c);
+  function draw(){
+    if(visible){
+      ctx.clearRect(0,0,W,H);
+      const mid=H/2,edge=Math.min(W,H)*.42;
+      for(let x=10;x<W-10;x+=2){
+        const fade=Math.sin((x-10)/(W-20)*Math.PI);
+        const a=amp(x+t*.6)*edge*fade;
+        const dots=Math.ceil(a/2.2);
+        for(let k=0;k<dots;k++){
+          const y=Math.random()*a;
+          const lum=1-y/(a+1);
+          ctx.fillStyle=lum>.55?`rgba(245,240,232,${.55+lum*.4})`:`rgba(133,145,72,${.35+lum*.6})`;
+          ctx.fillRect(x,mid-y,1.3,1.3);ctx.fillRect(x,mid+y,1.3,1.3);
+        }
+      }
+      ctx.fillStyle='rgba(245,240,232,0.5)';ctx.fillRect(10,mid,W-20,1);
+      t++;
+    }
+    if(!reduceMotion)requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
